@@ -53,6 +53,9 @@ async def populate_stats(characters: list[str]) -> None:
                     "image": f"https://ultimateframedata.com/characterart/dark/{character_url}.webp",
                 }
 
+                if character == "kazuya":
+                    stats["total_air_acceleration"] = "Total Air Acceleration — 0.04"
+
                 await db.execute(
                     """INSERT INTO stats VALUES(
                         :character,

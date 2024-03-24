@@ -13,6 +13,7 @@ def get_all_characters() -> list[str]:
         if c["name"] != "random"
         and c["name"] != "pokémon trainer"
         and c["name"] != "pyra / mythra"
+        and c["name"] != "steve / alex"
     ]
 
     characters.append("pyra")
@@ -20,6 +21,7 @@ def get_all_characters() -> list[str]:
     characters.append("squirtle")
     characters.append("ivysaur")
     characters.append("charizard")
+    characters.append("steve")
 
     return characters
 
@@ -32,9 +34,4 @@ def get_characters_url(character: str) -> str:
     elif character == "charizard":
         return "pt_charizard"
 
-    return (
-        character.replace(" ", "_")
-        .replace(".", "")
-        .replace("&", "and")
-        .replace("steve_/_alex", "steve")
-    )
+    return character.replace(" ", "_").replace(".", "").replace("&", "and")

@@ -52,42 +52,88 @@ async def populate_moves(characters: list[str]) -> None:
                 print(f"Movename: {movename}, Movename Smash: {movename_smash}")
 
                 if startup:
-                    startup = startup.text.replace("\n", "").replace("\t", "")
+                    startup = (
+                        startup.text.replace("\n", "")
+                        .replace("\t", "")
+                        .replace("**", "--")
+                    )
 
                 if totalframes:
-                    totalframes = totalframes.text.replace("\n", "").replace("\t", "")
+                    totalframes = (
+                        totalframes.text.replace("\n", "")
+                        .replace("\t", "")
+                        .replace("**", "--")
+                    )
 
                 if landinglag:
-                    landinglag = landinglag.text.replace("\n", "").replace("\t", "")
+                    landinglag = (
+                        landinglag.text.replace("\n", "")
+                        .replace("\t", "")
+                        .replace("**", "--")
+                    )
 
                 if notes:
-                    notes = notes.text.replace("\n", "").replace("\t", "")
+                    notes = (
+                        notes.text.replace("\n", "")
+                        .replace("\t", "")
+                        .replace("**", "--")
+                    )
 
                 if basedamage:
-                    basedamage = basedamage.text.replace("\n", "").replace("\t", "")
+                    basedamage = (
+                        basedamage.text.replace("\n", "")
+                        .replace("\t", "")
+                        .replace("**", "--")
+                    )
 
                 if shieldlag:
-                    shieldlag = shieldlag.text.replace("\n", "").replace("\t", "")
+                    shieldlag = (
+                        shieldlag.text.replace("\n", "")
+                        .replace("\t", "")
+                        .replace("**", "--")
+                    )
 
                 if shieldstun:
-                    shieldstun = shieldstun.text.replace("\n", "").replace("\t", "")
+                    shieldstun = (
+                        shieldstun.text.replace("\n", "")
+                        .replace("\t", "")
+                        .replace("**", "--")
+                    )
 
                 if advantage:
-                    advantage = advantage.text.replace("\n", "").replace("\t", "")
+                    advantage = (
+                        advantage.text.replace("\n", "")
+                        .replace("\t", "")
+                        .replace("**", "--")
+                    )
 
                 if activeframes:
-                    activeframes = activeframes.text.replace("\n", "").replace("\t", "")
+                    activeframes = (
+                        activeframes.text.replace("\n", "")
+                        .replace("\t", "")
+                        .replace("**", "--")
+                    )
 
                 if endlag:
-                    endlag = endlag.text.replace("\n", "").replace("\t", "")
+                    endlag = (
+                        endlag.text.replace("\n", "")
+                        .replace("\t", "")
+                        .replace("**", "--")
+                    )
 
                 if autocancels:
-                    autocancels = autocancels.text.replace("\n", "").replace("\t", "")
+                    autocancels = (
+                        autocancels.text.replace("\n", "")
+                        .replace("\t", "")
+                        .replace("**", "--")
+                    )
 
                 if actionable_before_landing:
-                    actionable_before_landing = actionable_before_landing.text.replace(
-                        "\n", ""
-                    ).replace("\t", "")
+                    actionable_before_landing = (
+                        actionable_before_landing.text.replace("\n", "")
+                        .replace("\t", "")
+                        .replace("**", "--")
+                    )
 
                 if hitbox:
                     if hitbox.find("img"):
