@@ -2,11 +2,15 @@ import requests
 import aiosqlite
 from bs4 import BeautifulSoup
 
+import src.characters
+
 
 async def populate_moves(characters: list[str]) -> None:
     async with aiosqlite.connect("./db/ultimateframedata.db") as db:
         for character in characters:
-            r = requests.get(f"https://ultimateframedata.com/{character}.php")
+            character_url = src.characters.get_characters_url(character)
+
+            r = requests.get(f"https://ultimateframedata.com/{character_url}.php")
 
             soup = BeautifulSoup(r.text, "html.parser")
 
