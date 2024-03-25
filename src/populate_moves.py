@@ -42,6 +42,8 @@ async def populate_moves(characters: list[str]) -> None:
 
                 movename_smash = None
 
+                original_movename = movename
+
                 if movename and "(" in movename:
                     movename_smash = movename.split("(")[1].replace(")", "")
                     movename = movename.split(" (")[0]
@@ -50,7 +52,7 @@ async def populate_moves(characters: list[str]) -> None:
 
                 for special in special_names:
                     if special[0] in movename:
-                        movename_smash = movename
+                        movename_smash = original_movename
                         movename = special[1]
 
                 print(f"Movename: {movename}, Movename Smash: {movename_smash}")
