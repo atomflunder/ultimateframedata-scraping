@@ -9,8 +9,9 @@ async def setup_ufd(filepath: str = "./db/ultimateframedata.db") -> None:
         await db.execute(
             """CREATE TABLE IF NOT EXISTS moves(
                 character TEXT,
+                input TEXT,
                 move_name TEXT,
-                move_name_smash TEXT,
+                full_move_name TEXT,
                 frame_startup TEXT,
                 frame_active TEXT,
                 frame_endlag TEXT,

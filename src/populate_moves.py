@@ -19,7 +19,6 @@ async def populate_moves(characters: list[str]) -> None:
             special_names = []
 
             for move in moves:
-
                 movename = move.find("div", {"class": "movename"})
                 startup = move.find("div", {"class": "startup"})
                 totalframes = move.find("div", {"class": "totalframes"})
@@ -40,22 +39,32 @@ async def populate_moves(characters: list[str]) -> None:
                 if movename:
                     movename = movename.text.replace("\n", "").replace("\t", "")
 
+                input_name = None
                 movename_smash = None
+                movename_full = movename
 
-                original_movename = movename
-
-                if movename and "(" in movename:
-                    movename_smash = movename.split("(")[1].replace(")", "")
-                    movename = movename.split(" (")[0]
-
-                    special_names.append([movename_smash, movename])
+                if movename:
+                    if "(" in movename:
+                        movename_smash = movename.split("(")[1].replace(")", "")
+                        input_name = movename.split(" (")[0]
+                    else:
+                        input_name = movename
 
                 for special in special_names:
-                    if special[0] in movename:
-                        movename_smash = original_movename
-                        movename = special[1]
+                    if special[0] in movename and ", Air" not in movename:
+                        print(f"Special: {special[0]} found in {movename}")
+                        movename_smash = movename_full
+                        if character_url != "rosalina_and_luma":
+                            input_name = special[1]
 
-                print(f"Movename: {movename}, Movename Smash: {movename_smash}")
+                        movename_full = f"{input_name} ({movename_smash})"
+
+                if movename and "(" in movename:
+                    special_names.append([movename_smash, input_name])
+
+                print(
+                    f"Input: {movename}, Movename: {movename_smash}, Full: {movename_full}"
+                )
 
                 if startup:
                     startup = (
@@ -151,8 +160,9 @@ async def populate_moves(characters: list[str]) -> None:
                     await db.execute(
                         """INSERT INTO moves VALUES (
                         :character,
+                        :input,
                         :move_name,
-                        :move_name_smash,
+                        :full_move_name,
                         :frame_startup,
                         :frame_active,
                         :frame_endlag,
@@ -167,8 +177,9 @@ async def populate_moves(characters: list[str]) -> None:
                         :notes)""",
                         {
                             "character": character,
-                            "move_name": movename,
-                            "move_name_smash": movename_smash,
+                            "input": input_name,
+                            "move_name": movename_smash,
+                            "full_move_name": movename_full,
                             "frame_startup": startup,
                             "frame_active": activeframes,
                             "frame_endlag": endlag,
