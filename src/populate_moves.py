@@ -151,50 +151,117 @@ async def populate_moves(characters: list[str]) -> None:
                     )
 
                 if hitbox:
-                    if hitbox.find("img"):
-                        hitbox = f"https://ultimateframedata.com/{hitbox.find('img')['data-src']}"
-                    else:
-                        hitbox = None
+                    gifs = hitbox.find_all("img")
 
-                if movename != "Stats":
-                    await db.execute(
-                        """INSERT INTO moves VALUES (
-                        :character,
-                        :input,
-                        :move_name,
-                        :full_move_name,
-                        :frame_startup,
-                        :frame_active,
-                        :frame_endlag,
-                        :frame_onshield,
-                        :frame_shieldlag,
-                        :frame_shieldstun,
-                        :frame_total,
-                        :autocancels,
-                        :actionable_before_landing,
-                        :damage,
-                        :hitbox_gif,
-                        :notes)""",
-                        {
-                            "character": character,
-                            "input": input_name,
-                            "move_name": movename_smash,
-                            "full_move_name": movename_full,
-                            "frame_startup": startup,
-                            "frame_active": activeframes,
-                            "frame_endlag": endlag,
-                            "frame_onshield": advantage,
-                            "frame_shieldlag": shieldlag,
-                            "frame_shieldstun": shieldstun,
-                            "frame_total": totalframes,
-                            "autocancels": autocancels,
-                            "actionable_before_landing": actionable_before_landing,
-                            "damage": basedamage,
-                            "hitbox_gif": hitbox,
-                            "notes": notes,
-                        },
-                    )
+                    all_gifs = []
 
-                    print(f"Inserted {movename} for {character}")
+                    for i, gif in enumerate(gifs):
+                        all_gifs.append(
+                            f"https://ultimateframedata.com/{gif['data-src']}"
+                        )
+
+                        special_hitbox_name = None
+
+                        if len(gifs) > 1:
+                            special_hitbox_name = (
+                                hitbox.contents[i * 2]
+                                .replace("\n", "")
+                                .replace("\t", "")
+                            )
+                            hitbox_gif = (
+                                f"https://ultimateframedata.com/{gif['data-src']}"
+                            )
+                        else:
+                            hitbox_gif = (
+                                f"https://ultimateframedata.com/{gif['data-src']}"
+                            )
+
+                        await db.execute(
+                            """INSERT INTO moves VALUES (
+                                :character,
+                                :input,
+                                :move_name,
+                                :special_hitbox,
+                                :full_move_name,
+                                :frame_startup,
+                                :frame_active,
+                                :frame_endlag,
+                                :frame_onshield,
+                                :frame_shieldlag,
+                                :frame_shieldstun,
+                                :frame_total,
+                                :autocancels,
+                                :actionable_before_landing,
+                                :damage,
+                                :hitbox_gif,
+                                :notes)""",
+                            {
+                                "character": character,
+                                "input": input_name,
+                                "move_name": movename_smash,
+                                "special_hitbox": special_hitbox_name,
+                                "full_move_name": (
+                                    f"{movename_full} <{special_hitbox_name}>"
+                                    if len(gifs) > 1
+                                    else movename_full
+                                ),
+                                "frame_startup": startup,
+                                "frame_active": activeframes,
+                                "frame_endlag": endlag,
+                                "frame_onshield": advantage,
+                                "frame_shieldlag": shieldlag,
+                                "frame_shieldstun": shieldstun,
+                                "frame_total": totalframes,
+                                "autocancels": autocancels,
+                                "actionable_before_landing": actionable_before_landing,
+                                "damage": basedamage,
+                                "hitbox_gif": hitbox_gif,
+                                "notes": notes,
+                            },
+                        )
+
+                else:
+                    if movename != "Stats":
+                        await db.execute(
+                            """INSERT INTO moves VALUES (
+                            :character,
+                            :input,
+                            :move_name,
+                            :special_hitbox,
+                            :full_move_name,
+                            :frame_startup,
+                            :frame_active,
+                            :frame_endlag,
+                            :frame_onshield,
+                            :frame_shieldlag,
+                            :frame_shieldstun,
+                            :frame_total,
+                            :autocancels,
+                            :actionable_before_landing,
+                            :damage,
+                            :hitbox_gif,
+                            :notes)""",
+                            {
+                                "character": character,
+                                "input": input_name,
+                                "move_name": movename_smash,
+                                "special_hitbox": None,
+                                "full_move_name": movename_full,
+                                "frame_startup": startup,
+                                "frame_active": activeframes,
+                                "frame_endlag": endlag,
+                                "frame_onshield": advantage,
+                                "frame_shieldlag": shieldlag,
+                                "frame_shieldstun": shieldstun,
+                                "frame_total": totalframes,
+                                "autocancels": autocancels,
+                                "actionable_before_landing": actionable_before_landing,
+                                "damage": basedamage,
+                                "hitbox_gif": hitbox,
+                                "notes": notes,
+                            },
+                        )
+
+                print(f"Inserted {movename_full} for {character}")
 
         await db.commit()

@@ -11,6 +11,7 @@ async def setup_ufd(filepath: str = "./db/ultimateframedata.db") -> None:
                 character TEXT,
                 input TEXT,
                 move_name TEXT,
+                special_hitbox TEXT,
                 full_move_name TEXT,
                 frame_startup TEXT,
                 frame_active TEXT,
